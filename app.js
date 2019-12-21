@@ -1,10 +1,10 @@
 // Listen for submit
-document.getElementById('loan-form').addEventListener('submit', function () {
+document.getElementById('loan-form').addEventListener('submit', function (e) {
     // Hide results
-    document.getElementById('results').style.display = "none";
+    document.getElementById('results').style.display = 'none';
 
     // Show loader
-    document.getElementById('loading').style.display = "block";
+    document.getElementById('loading').style.display = 'block';
 
     setTimeout(calculateResults, 2000);
 
@@ -26,7 +26,7 @@ function calculateResults() {
     const calculatedInterest = parseFloat(interest.value) / 100 / 12;
     const calculatedPayments = parseFloat(years.value) * 12;
 
-    // Compute monthly payments
+    // Compute monthly payment
     const x = Math.pow(1 + calculatedInterest, calculatedPayments);
     const monthly = (principal * x * calculatedInterest) / (x - 1);
 
@@ -35,20 +35,25 @@ function calculateResults() {
         totalPayment.value = (monthly * calculatedPayments).toFixed(2);
         totalInterest.value = ((monthly * calculatedPayments) - principal).toFixed(2);
 
-
         // Show results
-        document.getElementById('results').style.display = "block";
+        document.getElementById('results').style.display = 'block';
 
         // Hide loader
-        document.getElementById('results').style.display = "none";
+        document.getElementById('loading').style.display = 'none';
+
     } else {
         showError('Please check your numbers');
     }
-
 }
 
 // Show Error
 function showError(error) {
+    // Hide results
+    document.getElementById('results').style.display = 'none';
+
+    // Hide loader
+    document.getElementById('loading').style.display = 'none';
+
     // Create a div
     const errorDiv = document.createElement('div');
 
@@ -59,7 +64,7 @@ function showError(error) {
     // Add class
     errorDiv.className = 'alert alert-danger';
 
-    //Create text node and append to div
+    // Create text node and append to div
     errorDiv.appendChild(document.createTextNode(error));
 
     // Insert error above heading
@@ -67,7 +72,6 @@ function showError(error) {
 
     // Clear error after 3 seconds
     setTimeout(clearError, 3000);
-
 }
 
 // Clear error
